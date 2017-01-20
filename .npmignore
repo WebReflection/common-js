@@ -1,5 +1,7 @@
 .travis.yml
 .gitignore
 index.html
+test.js
+node_modules/*
 js-browser/*
 js-node/*

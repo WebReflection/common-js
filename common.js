@@ -44,10 +44,6 @@ if (typeof module === 'object') {
               xhr.open('GET', path, true);
               xhr.onerror = reject;
               xhr.onload = function () {
-                alert('var module=' + CommonJS + '(arguments[0]),' +
-                  'exports=module.exports;(function(){"use strict";' +
-                    xhr.responseText +
-                  '}.call(exports));return module.exports;');
                 resolve(Function(
                   'var module=' + CommonJS + '(arguments[0]),' +
                   'exports=module.exports;(function(){"use strict";' +

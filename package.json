@@ -20,5 +20,13 @@
   "license": "MIT",
   "devDependencies": {
     "uglify-js": "^2.7.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WebReflection/common-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/WebReflection/common-js/issues"
+  },
+  "homepage": "https://github.com/WebReflection/common-js#readme"
 }

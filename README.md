@@ -68,7 +68,7 @@ Promise.all([
   * **Is there a CDN I can use to test?**
     There is always one for npm modules. [https://unpkg.com/common-js@latest](https://unpkg.com/common-js@latest) would do.
   * **Is this using eval?**
-    No, it's using `Function`, which is not the same, and it does exactly what a script loading your code would do. Actually, it does something more. It makes the module run on strict by default and it avoids global scope pollution, like a proper module system.
+    No, it's using `Function`, which is not the same, and it does exactly what a script loading your code would do. Actually, it does something better. It makes the module run on strict by default and it avoids global scope pollution, like a proper module system.
 
 
 

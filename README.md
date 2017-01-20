@@ -56,6 +56,22 @@ Promise.all([
 ```
 
 
+### Exporting modules asynchronously
+```js
+// an async example of /js-browser/test.js content
+// for the /js-browser/main.js file nothing changes
+module.exports = new Promise(function (resolve) {
+  setTimeout(
+    resolve,
+    1000,
+    function (message) {
+      alert(message + '\nfrom ' + module.filename);
+    }
+  );
+});
+```
+
+
 
 ### F.A.Q
 

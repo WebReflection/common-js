@@ -86,7 +86,7 @@ module.exports = new Promise(function (resolve) {
   * **Is there a CDN I can use to test?**
     There is always one for npm modules. [https://unpkg.com/common-js@latest](https://unpkg.com/common-js@0.2.0/common.min.js) should be already OK.
   * **Is this using eval?**
-    It's using a technique that is compatible with highest security measurements such [Content Security Policy](https://w3c.github.io/webappsec-csp/)
+    No. It's using a technique that is even compatible with highest security standards such [Content Security Policy](https://w3c.github.io/webappsec-csp/)
 
 
 

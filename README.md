@@ -1,4 +1,4 @@
-# CommonJS + module.import()
+# CommonJS + module.import() [![build status](https://secure.travis-ci.org/WebReflection/common-js.svg)](http://travis-ci.org/WebReflection/common-js)
 
 This module aim is to bring both CommonJS like module behavior on Web browsers,
 and a promise based `module.import(path)` to both browsers and NodeJS.

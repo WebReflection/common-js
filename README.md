@@ -84,7 +84,7 @@ module.exports = new Promise(function (resolve) {
   * **Why not ES2015 modules?**
     Because those, so far, never truly solved anything. Actually, ES6 modules created more problems due inability to require modules at runtime and/or on the browser.
   * **Is there a CDN I can use to test?**
-    There is always one for npm modules. [https://unpkg.com/common-js@latest](https://unpkg.com/common-js@0.1.1/common.min.js) should be already OK.
+    There is always one for npm modules. [https://unpkg.com/common-js@latest](https://unpkg.com/common-js@0.2.0/common.min.js) should be already OK.
   * **Is this using eval?**
     It's using a technique that is compatible with highest security measurements such [Content Security Policy](https://w3c.github.io/webappsec-csp/)
 

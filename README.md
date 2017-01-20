@@ -66,7 +66,7 @@ Promise.all([
   * **Why not ES2015 modules?**
     Because those, so far, never truly solved anything. Actually, ES6 modules created more problems due inability to require modules at runtime and/or on the browser.
   * **Is there a CDN I can use to test?**
-    There is always one for npm modules. [https://unpkg.com/common-js@latest](https://unpkg.com/common-js@latest) would do.
+    There is always one for npm modules. [https://unpkg.com/common-js@latest](https://unpkg.com/common-js@0.1.1/common.min.js) should be already OK.
   * **Is this using eval?**
     No, it's using `Function`, which is not the same, and it does exactly what a script loading your code would do. Actually, it does something better. It makes the module run on strict by default and it avoids global scope pollution, like a proper module system.
 

@@ -1,0 +1,19 @@
+{
+  "name": "common-js",
+  "version": "0.0.0",
+  "description": "module.exports and module.import for browsers too",
+  "main": "common.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "require",
+    "module",
+    "exports",
+    "import",
+    "async",
+    "browser"
+  ],
+  "author": "Andrea Giammarchi",
+  "license": "MIT"
+}

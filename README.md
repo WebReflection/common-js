@@ -5,6 +5,8 @@ and a promise based `module.import(path)` to both browsers and NodeJS.
 
 <sub>Yes, it resolves paths relatively to the current one!<sub>
 
+<sub>Yes, it is secure too, check the [CSP enabled page](https://webreflection.github.io/common-js/)!<sub>
+
 
 
 ### Browser Example
@@ -84,7 +86,7 @@ module.exports = new Promise(function (resolve) {
   * **Is there a CDN I can use to test?**
     There is always one for npm modules. [https://unpkg.com/common-js@latest](https://unpkg.com/common-js@0.1.1/common.min.js) should be already OK.
   * **Is this using eval?**
-    No, it's using `Function`, which is not the same, and it does exactly what a script loading your code would do. Actually, it does something better. It makes the module run on strict by default and it avoids global scope pollution, like a proper module system.
+    It's using a technique that is compatible with highest security measurements such [Content Security Policy](https://w3c.github.io/webappsec-csp/)
 
 
 

@@ -7,8 +7,9 @@ if (typeof module === 'object') {
     });
   };
 } else {
-  (function CommonJS(filename) {
+  (function CommonJS(info, el) {
     var
+      filename = info._ || el.getAttribute('data-main'),
       exports = {},
       module = {
         filename: filename,
@@ -40,16 +41,28 @@ if (typeof module === 'object') {
           return window.module._cache[path] ||
             (window.module._cache[path] = new Promise(
             function (resolve, reject) {
-              var xhr = new XMLHttpRequest();
+              var
+                script,
+                xhr = new XMLHttpRequest(),
+                html = document.documentElement
+              ;
               xhr.open('GET', path, true);
               xhr.onerror = reject;
               xhr.onload = function () {
-                resolve(Function(
+                script = document.createElement('script');
+                script.setAttribute('nonce', window.module._nonce);
+                script.textContent = 'module.$(function(){' +
                   'var module=' + CommonJS + '(arguments[0]),' +
                   'exports=module.exports;(function(){"use strict";' +
                     xhr.responseText +
                   '}.call(exports));return module.exports;'
-                )(path));
+                + '}(module));';
+                window.module._ = path;
+                window.module.$ = resolve;
+                setTimeout(function () {
+                  html.removeChild(script);
+                },1);
+                html.appendChild(script);
               };
               xhr.send(null);
             }))
@@ -59,8 +72,9 @@ if (typeof module === 'object') {
     if (!window.module) {
       window.module = module;
       module._cache = Object.create(null);
+      module._nonce = el.getAttribute('nonce');
       module.import(filename);
     }
     return module;
-  }(document.getElementById('common-js').getAttribute('data-main')));
+  }({_:null}, document.getElementById('common-js')));
 }

@@ -9,8 +9,15 @@ if (typeof module === 'object') {
 } else {
   (function CommonJS(info, el) {
     var
-      __filename = info._ || el.getAttribute('data-main'),
+      remotePath = /^[a-zA-Z_-]/,
+      __filename = info._ || el.getAttribute('data-main').replace(remotePath, './$&'),
       normalize = function (url) {
+        if (remotePath.test(url)) {
+          i = url.indexOf('/');
+          length = url.length;
+          url = 'https://unpkg.com/' + url.slice(0, i < 0 ? length : i) +
+                '@latest' + (i < 0 ? '' : url.slice(i));
+        }
         for (var
           abs = /^(?:[a-z]+:)?\/\//.test(url),
           path = abs ? url : __filename.slice(0, __filename.lastIndexOf('/')),
@@ -102,7 +109,7 @@ if (typeof module === 'object') {
       window.module = module;
       module._cache = Object.create(null);
       module._nonce = el.getAttribute('nonce');
-      module.import(__filename.split('/').pop());
+      module.import('./' + __filename.split('/').pop());
     }
     return module;
   }({_:null}, document.getElementById('common-js')));

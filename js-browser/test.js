@@ -1,6 +1,10 @@
 // exports can be either synchronous
 module.exports = function (message) {
-  alert(message);
+  message.split(/\n/g).forEach((text) => {
+    document.body.appendChild(
+      document.createElement('p')
+    ).textContent = text;
+  })
 };
 
 // or even asynchronous

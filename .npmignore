@@ -1,5 +1,5 @@
-.travis.yml
 .gitignore
+.travis.yml
 index.html
 test.js
 node_modules/*

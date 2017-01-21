@@ -21,12 +21,12 @@ and a promise based `module.import(path)` to both browsers and NodeJS.
 </html>
 ```
 
-Having a single top level script is all it takes to be able to load asynchronously any other file or module.
+Having a single script with `id="common-js"` is all it takes to be able to load asynchronously any other file or module.
 
 The main entry point `/js-browser/main.js` will resolve relative paths from `/js-browser/` folder.
 
-Its loaded modules will resolve their own paths from where they've been loaded, and so on.
-The same goes for NodeJS.
+Its loaded modules will resolve their own imported paths from where they've been loaded, and so on.
+The same goes for NodeJS, it's indeed same logic behind `require`.
 
 ```js
 // /js-browser/main.js loading /js-browser/test.js
@@ -74,6 +74,11 @@ module.exports = new Promise(function (resolve) {
 ```
 
 
+### What else?
+The synchronous `require` and both `__filename` and `__dirname` are also exposed, but nothing else from NodeJS core is available.
+You are responsible for loading all the modules you need, possibly only when you need them.
+
+
 
 ### F.A.Q
 
@@ -84,7 +89,7 @@ module.exports = new Promise(function (resolve) {
   * **Why not ES2015 modules?**
     Because those, so far, never truly solved anything. Actually, ES6 modules created more problems due inability to require modules at runtime and/or on the browser.
   * **Is there a CDN I can use to test?**
-    There is always one for npm modules. [https://unpkg.com/common-js@latest](https://unpkg.com/common-js@0.2.1/common.min.js) should be already OK.
+    There is always one for npm modules. [https://unpkg.com/common-js@latest](https://unpkg.com/common-js@0.3.0/common.min.js) should be already OK.
   * **Is this using eval?**
     No. It's using a technique that is even compatible with highest security standards such [Content Security Policy](https://w3c.github.io/webappsec-csp/)
 

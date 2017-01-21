@@ -73,7 +73,7 @@ if (typeof module === 'object') {
       window.module = module;
       module._cache = Object.create(null);
       module._nonce = el.getAttribute('nonce');
-      module.import(filename);
+      module.import(filename.split('/').pop());
     }
     return module;
   }({_:null}, document.getElementById('common-js')));

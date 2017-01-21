@@ -1,6 +1,6 @@
 {
   "name": "common-js",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "module.exports and module.import for browsers too",
   "main": "common.js",
   "scripts": {

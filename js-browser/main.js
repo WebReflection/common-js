@@ -5,3 +5,8 @@ module.import('./test').then(function (test) {
 
 // sync example
 // require('./test')('Hello CommonJS!\nfrom ' + __filename);
+
+module.import('./converter')
+.then((converter) => {
+  console.log(converter.sha256('yolo'));
+});

@@ -37,8 +37,12 @@ if (typeof module === 'object') {
         return path;
       },
       onload = function () {
-        var script, html = document.documentElement;
-        script = document.createElement('script');
+        var
+          path = this._,
+          resolve = this.$,
+          html = document.documentElement,
+          script = document.createElement('script')
+        ;
         script.setAttribute('nonce', window.module._nonce);
         script.textContent = 'module.$(function(){' +
           'var module=' + CommonJS + '(arguments[0]),' +
@@ -49,23 +53,22 @@ if (typeof module === 'object') {
             this.responseText +
           ';\n}.call(exports));return module.exports;'
         + '}(module));';
-        window.module._ = this._;
-        window.module.$ = this.$;
+        window.module._ = path;
+        window.module.$ = function (exports) {
+          resolve(window.module._cache[path] = exports);
+        };
         // cleanup after, no matter what
         setTimeout(function () { html.removeChild(script); },1);
-        // execute the script
+        // execute the script (synchronously)
         html.appendChild(script);
       },
       load = function (path) {
-        var
-          xhr = new XMLHttpRequest(),
-          module = {}
-        ;
+        var xhr = new XMLHttpRequest(), module;
+        xhr.open('GET', path, false);
         xhr._ = path;
         xhr.$ = function (exports) { module = exports; };
-        xhr.open('GET', path, false);
         xhr.send(null);
-        if (xhr.responseText) onload.call(xhr);
+        onload.call(xhr);
         return module;
       },
       exports = {},
@@ -74,22 +77,24 @@ if (typeof module === 'object') {
         exports: exports,
         require: function (url) {
           var path = normalize(url);
-          return window.module._cache[path] ||
-            (window.module._cache[path] = load(path));
+          return window.module._cache[path] || load(path);
         },
         import: function (url) {
           var path = normalize(url);
-          return window.module._cache[path] ||
+          return Promise.resolve(
+            window.module._cache[path] ||
             (window.module._cache[path] = new Promise(
-            function (resolve, reject) {
-              var xhr = new XMLHttpRequest();
-              xhr._ = path;
-              xhr.$ = resolve;
-              xhr.open('GET', path, true);
-              xhr.onerror = reject;
-              xhr.onload = onload;
-              xhr.send(null);
-            }))
+              function (resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', path, true);
+                xhr._ = path;
+                xhr.$ = resolve;
+                xhr.onerror = reject;
+                xhr.onload = onload;
+                xhr.send(null);
+              }
+            ))
+          );
         }
       }
     ;

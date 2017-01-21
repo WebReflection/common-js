@@ -1,5 +1,6 @@
 module.import('./test').then(function (test) {
-  test('Hello CommonJS!\nfrom ' + __filename);
+  test('Asynchronous CommonJS!\nfrom ' + __filename);
+  require('./test')('... but Synchronous too ...');
 });
 
 // sync example

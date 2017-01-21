@@ -7,7 +7,7 @@
     "test": "node test.js",
     "build": "npm run minify; npm run nonce; npm run size;",
     "size": "cat common.js | wc -c;cat common.min.js | wc -c;gzip -c common.min.js | wc -c",
-    "minify": "uglifyjs common.js --comments=all --compress --mangle -o common.min.js",
+    "minify": "uglifyjs common.js --comments=/^!/ --compress --mangle -o common.min.js",
     "nonce": "cat common.js | openssl dgst -sha256 -binary | base64 > nonce.txt;cat common.min.js | openssl dgst -sha256 -binary | base64 > nonce.min.txt"
   },
   "keywords": [

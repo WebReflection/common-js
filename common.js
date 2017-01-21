@@ -106,6 +106,7 @@ if (typeof module === 'object') {
       }
     ;
     if (!window.module) {
+      window.global = window;
       window.module = module;
       module._cache = Object.create(null);
       module._nonce = el.getAttribute('nonce');

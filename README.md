@@ -7,6 +7,7 @@ and a promise based `module.import(path)` to both browsers and NodeJS.
 
 <sub>Yes, it is secure too, check the [CSP enabled page](https://webreflection.github.io/common-js/)!<sub>
 
+Don't miss [the introductory blog post](https://medium.com/@WebReflection/asynchronous-module-import-path-b9f56675e109#.8nsdv9571) about this idea!
 
 
 ### Browser Example

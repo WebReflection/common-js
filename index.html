@@ -9,10 +9,11 @@
                script-src 'nonce-Eop9ZZOXdqXHDKWk8zebBDEZC98wh/cKy+DVef4ISKE=';
                connect-src 'self' https://unpkg.com/;"
     >
+    <script>window.Promise||document.write('<script src="js-browser/promise-pjs.js"><'+'/script>')</script>
   </head>
   <body></body>
   <script
-    async
+    defer
     id="common-js"
     data-main="js-browser/main.js"
     src="common.min.js"

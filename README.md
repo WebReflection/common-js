@@ -90,7 +90,7 @@ You are responsible for loading all the modules you need, possibly only when you
   * **Why not ES2015 modules?**
     Because those, so far, never truly solved anything. Actually, ES6 modules created more problems due inability to require modules at runtime and/or on the browser.
   * **Is there a CDN I can use to test?**
-    There is always one for npm modules. [https://unpkg.com/common-js@latest](https://unpkg.com/common-js@0.3.3/common.min.js) should be already OK.
+    There is always one for npm modules. [https://unpkg.com/common-js@latest](https://unpkg.com/common-js@latest/common.min.js) should be already OK.
   * **Is this using eval?**
     No. It's using a technique that is even compatible with highest security standards such [Content Security Policy](https://w3c.github.io/webappsec-csp/)
 

@@ -77,7 +77,7 @@ module.exports = new Promise(function (resolve) {
 
 
 ### Compatibility
-You can test your target directly through the [live test page]([CSP enabled page](https://webreflection.github.io/common-js/).
+You can test your target directly through the [live test page](https://webreflection.github.io/common-js/).
 What I could test was the following:
 
 **Mobile** Android 2+, iOS5+, WP7+, BBOS7+, FFOS1+, WebOS2+, Kindle Paper & Fire

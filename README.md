@@ -5,7 +5,7 @@ and a promise based `module.import(path)` to both browsers and NodeJS.
 
 <sub>Yes, it resolves paths relatively to the current one!<sub>
 
-<sub>Yes, it is secure too, check the [CSP enabled page](https://webreflection.github.io/common-js/)!<sub>
+<sub>Yes, it is secure too, check the [CSP enabled page](https://webreflection.github.io/common-js/csp.html)!<sub>
 
 Don't miss [the introductory blog post](https://medium.com/@WebReflection/asynchronous-module-import-path-b9f56675e109#.8nsdv9571) about this idea!
 
@@ -73,6 +73,18 @@ module.exports = new Promise(function (resolve) {
   );
 });
 ```
+
+
+
+### Compatibility
+You can test your target directly through the [live test page]([CSP enabled page](https://webreflection.github.io/common-js/).
+What I could test was the following:
+
+**Mobile** Android 2+, iOS5+, WP7+, BBOS7+, FFOS1+, WebOS2+, Kindle Paper & Fire
+
+**Desktop** Chrome, FF, Safari, Opera, IE9+ (theoretically IE8 too but it needs few polyfills upfront)
+
+
 
 
 ### What else?

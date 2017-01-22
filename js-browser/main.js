@@ -13,7 +13,7 @@ Promise.all([
   module.import('./converter'),
   // looks automatically through unpkg.cdn directly
   // will be loaded remotely
-  module.import('classtrophobic')
+  module.import('classtrophobic-es5')
 ])
 .then(function (modules) {
   var

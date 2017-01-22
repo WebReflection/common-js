@@ -1,4 +1,4 @@
-/*! (C) 2017 by Andrea Giammarchi */
+/*! (C) 2017 Andrea Giammarchi */
 if (typeof module === 'object') {
   module.constructor.prototype.import = function (path) {
     var self = this;
@@ -9,15 +9,10 @@ if (typeof module === 'object') {
 } else {
   (function CommonJS(info, el) {
     var
-      remotePath = /^[a-zA-Z_-]/,
-      __filename = info._ || el.getAttribute('data-main').replace(remotePath, './$&'),
+      npmPath = /^[a-zA-Z_-]/,
+      __filename = info._ || el.getAttribute('data-main').replace(npmPath, './$&'),
       normalize = function (url) {
-        if (remotePath.test(url)) {
-          i = url.indexOf('/');
-          length = url.length;
-          url = 'https://unpkg.com/' + url.slice(0, i < 0 ? length : i) +
-                '@latest' + (i < 0 ? '' : url.slice(i));
-        }
+        if (npmPath.test(url)) url = gModule._path(url);
         for (var
           abs = /^(?:[a-z]+:)?\/\//.test(url),
           path = abs ? url : __filename.slice(0, __filename.lastIndexOf('/')),
@@ -43,26 +38,24 @@ if (typeof module === 'object') {
         }
         return path;
       },
-      onload = function () {
+      onload = function (xhr, path, resolve) {
         var
-          path = this._,
-          resolve = this.$,
           html = document.documentElement,
           script = document.createElement('script')
         ;
-        script.setAttribute('nonce', window.module._nonce);
+        script.setAttribute('nonce', gModule._nonce);
         script.textContent = 'module.$(function(){' +
-          'var module=' + CommonJS + '(arguments[0]),' +
+          'var module=' + gModule._cjs + '(arguments[0]),' +
           '__filename=module.filename,' +
           '__dirname=__filename.slice(0,__filename.lastIndexOf("/")),' +
           'require=module.require,' +
           'exports=module.exports;(function(){"use strict";' +
-            this.responseText +
+            xhr.responseText +
           ';\n}.call(exports));return module.exports;'
         + '}(module));';
-        window.module._ = path;
-        window.module.$ = function (exports) {
-          resolve(window.module._cache[path] = exports);
+        gModule._ = path;
+        gModule.$ = function (exports) {
+          resolve(gModule._cache[path] = exports);
         };
         // cleanup after, no matter what
         setTimeout(function () { html.removeChild(script); },1);
@@ -70,12 +63,15 @@ if (typeof module === 'object') {
         html.appendChild(script);
       },
       load = function (path) {
-        var xhr = new XMLHttpRequest(), module;
+        var
+          resolve = function (exports) { module = exports; },
+          xhr = new XMLHttpRequest(),
+          module
+        ;
         xhr.open('GET', path, false);
-        xhr._ = path;
-        xhr.$ = function (exports) { module = exports; };
         xhr.send(null);
-        onload.call(xhr);
+        if (xhr.status < 400) onload(xhr, path, resolve);
+        else throw (gModule._cache[path] = new Error(xhr.statusText));
         return module;
       },
       exports = {},
@@ -84,34 +80,43 @@ if (typeof module === 'object') {
         exports: exports,
         require: function (url) {
           var path = normalize(url);
-          return window.module._cache[path] || load(path);
+          return gModule._cache[path] || load(path);
         },
         import: function (url) {
           var path = normalize(url);
           return Promise.resolve(
-            window.module._cache[path] ||
-            (window.module._cache[path] = new Promise(
+            gModule._cache[path] ||
+            (gModule._cache[path] = new Promise(
               function (resolve, reject) {
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET', path, true);
-                xhr._ = path;
-                xhr.$ = resolve;
-                xhr.onerror = reject;
-                xhr.onload = onload;
+                xhr.onreadystatechange = function () {
+                  if (xhr.readyState == 4) {
+                    if (xhr.status < 400) onload(xhr, path, resolve);
+                    else reject(new Error(xhr.statusText));
+                  }
+                };
                 xhr.send(null);
               }
             ))
           );
         }
-      }
+      },
+      gModule = window.module || module
     ;
-    if (!window.module) {
+    if (gModule === module) {
       window.global = window;
       window.module = module;
       module._cache = Object.create(null);
       module._nonce = el.getAttribute('nonce');
+      module._cjs = '' + CommonJS;
+      module._path = function (url) {
+        var i = url.indexOf('/'), length = url.length;
+        return 'https://unpkg.com/' + url.slice(0, i < 0 ? length : i) +
+               '@latest' + (i < 0 ? '' : url.slice(i));
+      };
       module.import('./' + __filename.split('/').pop());
     }
     return module;
-  }({_:null}, document.getElementById('common-js')));
+  }({_:''}, document.getElementById('common-js')));
 }

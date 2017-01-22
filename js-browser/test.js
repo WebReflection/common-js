@@ -1,10 +1,13 @@
 // exports can be either synchronous
 module.exports = function (message) {
-  message.split(/\n/g).forEach((text) => {
+  for (var
+    line = message.split(/\n/g),
+    i = 0; i < line.length; i++
+  ) {
     document.body.appendChild(
       document.createElement('p')
-    ).textContent = text;
-  })
+    ).textContent = line[i];
+  }
 };
 
 // or even asynchronous

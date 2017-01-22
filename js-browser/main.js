@@ -10,13 +10,20 @@ module.import('./test').then(function (test) {
 // multiple imports
 Promise.all([
   // local module
-  './converter',
+  module.import('./converter'),
   // looks automatically through unpkg.cdn directly
   // will be loaded remotely
-  'classtrophobic'
-].map(m => module.import(m)))
-.then((modules) => {
-  const [converter, Class] = modules;
-  console.log(converter.sha256('yolo'));
-  console.log(typeof Class === 'function');
+  module.import('classtrophobic')
+])
+.then(function (modules) {
+  var
+    converter = modules[0],
+    Class = modules[1],
+    result = [
+      converter.sha256('yolo'),
+      typeof Class === 'function'
+    ].join('\n')
+  ;
+  if (typeof console !== 'undefined') console.log(result);
+  else alert(result);
 });

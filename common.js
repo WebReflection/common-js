@@ -49,7 +49,7 @@ if (typeof module === 'object') {
           '__filename=module.filename,' +
           '__dirname=__filename.slice(0,__filename.lastIndexOf("/")),' +
           'require=module.require,' +
-          'exports=module.exports;(function(){"use strict";' +
+          'exports=module.exports;(function(){"use strict";\n' +
             xhr.responseText +
           ';\n}.call(exports));return module.exports;'
         + '}(module));';
@@ -62,16 +62,32 @@ if (typeof module === 'object') {
         // execute the script (synchronously)
         html.appendChild(script);
       },
+      error = function (path, xhr) {
+        throw (gModule._cache[path] = new Error(xhr.statusText));
+      },
       load = function (path) {
         var
+          remote = path,
+          m = /^((?:[a-z]+?:\/\/)?[^/]+)\/([^@]+)@latest(\/.*)?$/.exec(path),
           resolve = function (exports) { module = exports; },
           xhr = new XMLHttpRequest(),
           module
         ;
-        xhr.open('GET', path, false);
-        xhr.send(null);
+        if (m) {
+          // hopefully soon ...
+          // xhr.open('GET', 'https://registry.npmjs.org/' + m[2] + '/latest', false);
+          // meanwhile ... 
+          xhr.open('GET', 'http://www.3site.eu/latest/?@=' + m[2], false);
+          xhr.send(null);
+          if (xhr.status < 400) module = JSON.parse(xhr.responseText);
+          else return error(path, xhr);
+          remote = m[1] + '/' + m[2] + '@' + module.version + (m[3] || '');
+        }
+        xhr = new XMLHttpRequest();
+        xhr.open('GET', remote, false);
+        xhr.send(module = null);
         if (xhr.status < 400) onload(xhr, path, resolve);
-        else throw (gModule._cache[path] = new Error(xhr.statusText));
+        else error(path, xhr);
         return module;
       },
       exports = {},
@@ -107,6 +123,7 @@ if (typeof module === 'object') {
     if (gModule === module) {
       window.global = window;
       window.module = module;
+      window.process = {browser: true};
       module._cache = Object.create(null);
       module._nonce = el.getAttribute('nonce');
       module._cjs = '' + CommonJS;

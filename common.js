@@ -1,11 +1,11 @@
 /*! (C) 2017 Andrea Giammarchi */
 if (typeof module === 'object') {
-  module.constructor.prototype.import = function (path) {
+  'import' in module || (module.constructor.prototype.import = function (path) {
     var self = this;
-    return new Promise(function (resolve) {
-      resolve(self.require(path));
+    return Promise.resolve().then(function () {
+      return self.require(path);
     });
-  };
+  });
 } else {
   (function CommonJS(info, el) {
     var

@@ -9,12 +9,13 @@ if (typeof module === 'object') {
 } else {
   (function CommonJS(info, el) {
     var
+      protoPath = /^(?:[a-z]+:)?\/\//,
       npmPath = /^[a-zA-Z_-]/,
       __filename = info._ || el.getAttribute('data-main').replace(npmPath, './$&'),
       normalize = function (url) {
-        if (npmPath.test(url)) url = gModule._path(url);
+        var abs = protoPath.test(url);
+        if (npmPath.test(url) && !abs) url = gModule._path(url);
         for (var
-          abs = /^(?:[a-z]+:)?\/\//.test(url),
           path = abs ? url : __filename.slice(0, __filename.lastIndexOf('/')),
           length = abs ? 0 : url.length,
           c, i = 0, p = 0; i < length; p = i + 1
@@ -51,8 +52,8 @@ if (typeof module === 'object') {
           'require=module.require,' +
           'exports=module.exports;(function(){"use strict";\n' +
             xhr.responseText +
-          ';\n}.call(exports));return module.exports;'
-        + '}(module));';
+          ';\n}.call(exports));return module.exports;' +
+        '}(module));';
         gModule._ = path;
         gModule.$ = function (exports) {
           resolve(gModule._cache[path] = exports);

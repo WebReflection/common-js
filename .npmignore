@@ -1,6 +1,8 @@
 .gitignore
 .travis.yml
+csp.html
 index.html
+root.js
 test.js
 node_modules/*
 js-browser/*

@@ -13,11 +13,11 @@ if (typeof module === 'object') {
       npmPath = /^[a-zA-Z_-]/,
       __filename = info._ || el.getAttribute('data-main').replace(npmPath, './$&'),
       normalize = function (url) {
-        var abs = protoPath.test(url);
-        if (npmPath.test(url) && !abs) url = gModule._path(url);
+        if (protoPath.test(url)) return url;
+        if (npmPath.test(url)) return gModule._path(url);
         for (var
-          path = abs ? url : __filename.slice(0, __filename.lastIndexOf('/')),
-          length = abs ? 0 : url.length,
+          path = __filename.slice(0, __filename.lastIndexOf('/')),
+          length = url.length,
           c, i = 0, p = 0; i < length; p = i + 1
         ) {
           i = url.indexOf('/', p);
